@@ -11,3 +11,8 @@
 后端运行命令：cd springboot; mvn spring-boot:run
 
 前端运行命令：cd vue3/study-room-management; npm run dev
+
+项目完成度：
+页面布局 √
+基本功能api √
+自助开关门/灯 ×
