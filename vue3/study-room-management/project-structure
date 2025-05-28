@@ -1,0 +1,11 @@
+study-room-management/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── views/
+│   ├── router/
+│   ├── store/
+│   ├── api/
+│   ├── utils/
+│   ├── App.vue
+│   └── main.js

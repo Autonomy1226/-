@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studyroom.mapper.UsageRecordMapper">
+    <resultMap id="BaseResultMap" type="com.studyroom.entity.UsageRecord">
+        <id column="id" property="id"/>
+        <result column="reservation_id" property="reservationId"/>
+        <result column="actual_start_time" property="actualStartTime"/>
+        <result column="actual_end_time" property="actualEndTime"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, reservation_id, actual_start_time, actual_end_time, status, create_time, update_time
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM usage_record
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByReservationId" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM usage_record
+        WHERE reservation_id = #{reservationId}
+    </select>
+
+    <select id="selectByStatus" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM usage_record
+        WHERE status = #{status}
+    </select>
+
+    <select id="selectByTimeRange" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM usage_record
+        WHERE (actual_start_time BETWEEN #{startTime} AND #{endTime})
+           OR (actual_end_time BETWEEN #{startTime} AND #{endTime})
+           OR (actual_start_time &lt;= #{startTime} AND actual_end_time &gt;= #{endTime})
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM usage_record
+    </select>
+
+    <insert id="insert" parameterType="com.studyroom.entity.UsageRecord" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO usage_record (reservation_id, actual_start_time, actual_end_time, status, create_time, update_time)
+        VALUES (#{reservationId}, #{actualStartTime}, #{actualEndTime}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.studyroom.entity.UsageRecord">
+        UPDATE usage_record
+        SET reservation_id = #{reservationId},
+            actual_start_time = #{actualStartTime},
+            actual_end_time = #{actualEndTime},
+            status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE usage_record
+        SET status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM usage_record WHERE id = #{id}
+    </delete>
+</mapper> 
